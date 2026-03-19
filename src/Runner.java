@@ -29,15 +29,27 @@ public class Runner {
         for (int i = 0; i < 10000000; i++){
             Rectangle newRect = Rectangle.generateRandomRectangle();
             ArrayList<Point> corners = newRect.findCorners();
+            boolean shouldBreak = false;
             for (Point corner : corners){
                 if (corner.getX() >= originalRect.getPoint().getX() && corner.getX() <= originalRect.getPoint().getX() + originalRect.getLength()){
                     if (corner.getY() <= originalRect.getPoint().getY() && corner.getY() >= originalRect.getPoint().getY() - originalRect.getWidth()){
                         counter2++;
+                        shouldBreak = true;
                         break;
                     }
                 }
             }
+            if (!shouldBreak){
+                if (corners.get(0).getX() >= originalRect.getPoint().getX() && corners.get(1).getX() <= originalRect.getPoint().getX() + originalRect.getLength()){
+                    if (corners.get(0).getY() >= originalRect.getPoint().getY() && corners.get(2).getY() <= originalRect.getPoint().getY() - originalRect.getWidth()){
+                        counter2++;
+                    }
+                } else if (corners.get(0).getY() <= originalRect.getPoint().getY() && corners.get(2).getY() >= originalRect.getPoint().getY() - originalRect.getWidth()){
+                    counter2++;
+                }
+            }
         }
+
         double percentTemp = (double) counter2 / 10000000;
         int percent = (int) (percentTemp * 1000 + 0.5);
         System.out.println(percent / 10.0 + "%");
